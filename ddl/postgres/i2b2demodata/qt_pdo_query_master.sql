@@ -15,7 +15,7 @@ CREATE TABLE qt_pdo_query_master (
     query_master_id integer DEFAULT nextval('qt_sq_pqm_qmid'::regclass) NOT NULL,
     user_id character varying(50) NOT NULL,
     group_id character varying(50) NOT NULL,
-    create_date timestamp without time zone NOT NULL,
+    create_date timestamp without time zone NOT NULL DEFAULT '1 January 1970',
     request_xml text,
     i2b2_request_xml text
 );

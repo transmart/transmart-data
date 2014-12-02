@@ -6,7 +6,7 @@ CREATE TABLE observation_fact (
     patient_num integer NOT NULL,
     concept_cd character varying(50) NOT NULL,
     provider_id character varying(50) NOT NULL,
-    start_date timestamp without time zone NOT NULL,
+    start_date timestamp without time zone NOT NULL DEFAULT '1 January 1970',
     modifier_cd character varying(100) DEFAULT '@'::character varying NOT NULL,
     instance_num integer DEFAULT 1 NOT NULL,
     valtype_cd character varying(50),

@@ -18,12 +18,12 @@ CREATE TABLE qt_query_master (
     group_id character varying(50) NOT NULL,
     master_type_cd character varying(2000),
     plugin_id integer,
-    create_date timestamp without time zone NOT NULL,
+    create_date timestamp without time zone NOT NULL DEFAULT '1 January 1970',
     delete_date timestamp without time zone,
     delete_flag character varying(3),
     generated_sql text,
     request_xml text,
-    i2b2_request_xml text
+    i2b2_request_xml text,
     pm_xml text
 );
 

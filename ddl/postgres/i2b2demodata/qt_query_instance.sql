@@ -17,7 +17,7 @@ CREATE TABLE qt_query_instance (
     user_id character varying(50) NOT NULL,
     group_id character varying(50) NOT NULL,
     batch_mode character varying(50),
-    start_date timestamp without time zone NOT NULL,
+    start_date timestamp without time zone NOT NULL DEFAULT '1 January 1970',
     end_date timestamp without time zone,
     delete_flag character varying(3),
     status_type_id integer,

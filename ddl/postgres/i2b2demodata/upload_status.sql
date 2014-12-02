@@ -19,7 +19,7 @@ CREATE TABLE upload_status (
     no_of_record bigint,
     loaded_record bigint,
     deleted_record bigint,
-    load_date timestamp without time zone NOT NULL,
+    load_date timestamp without time zone NOT NULL DEFAULT '1 January 1970',
     end_date timestamp without time zone,
     load_status character varying(100),
     message text,

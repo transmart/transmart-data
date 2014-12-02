@@ -16,7 +16,7 @@ CREATE TABLE qt_query_result_instance (
     query_instance_id integer,
     result_type_id integer NOT NULL,
     set_size integer,
-    start_date timestamp without time zone NOT NULL,
+    start_date timestamp without time zone NOT NULL DEFAULT '1 January 1970',
     end_date timestamp without time zone,
     delete_flag character varying(3),
     status_type_id integer NOT NULL,
