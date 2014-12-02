@@ -31,29 +31,37 @@ execute immediate 'DELETE FROM ' || upload_temptable_name ||'  t1
 execute immediate 'DELETE FROM ' || upload_temptable_name ||'  t1
  where t1.start_date is null';
 
---One time lookup on encounter_ide to get encounter_num
+--One time lookup on encounter_ide to get encounter_num jk: added dummy project id
+-- jgk 8/13/14: site encounter #s are only distinct per patient
+-- jgk 10/13/14: bugfix
 execute immediate 'UPDATE ' ||  upload_temptable_name
  || ' SET encounter_num = (SELECT em.encounter_num
 		     FROM encounter_mapping em
 		     WHERE em.encounter_ide = ' || upload_temptable_name||'.encounter_id
                      and em.encounter_ide_source = '|| upload_temptable_name||'.encounter_id_source
+                     and em.project_id=''@'' and em.patient_ide = ' || upload_temptable_name||'.patient_id
+                     and em.patient_ide_source = '|| upload_temptable_name||'.patient_id_source
 	 	    )
 WHERE EXISTS (SELECT em.encounter_num
 		     FROM encounter_mapping em
 		     WHERE em.encounter_ide = '|| upload_temptable_name||'.encounter_id
-                     and em.encounter_ide_source = '||upload_temptable_name||'.encounter_id_source)';
+                     and em.encounter_ide_source = '||upload_temptable_name||'.encounter_id_source
+                     and em.project_id=''@'' and em.patient_ide = ' || upload_temptable_name||'.patient_id
+                     and em.patient_ide_source = '|| upload_temptable_name||'.patient_id_source)';		     
 
---One time lookup on patient_ide to get patient_num
+--One time lookup on patient_ide to get patient_num jk: added dummy project id below jk: added dummy project id
 execute immediate 'UPDATE ' ||  upload_temptable_name
- || ' SET patient_num = (SELECT pm.patient_num
+ || ' SET patient_num = (SELECT pm.patient_num 
 		     FROM patient_mapping pm
 		     WHERE pm.patient_ide = '|| upload_temptable_name||'.patient_id
                      and pm.patient_ide_source = '|| upload_temptable_name||'.patient_id_source
+                     and pm.project_id=''@''
 	 	    )
-WHERE EXISTS (SELECT pm.patient_num
+WHERE EXISTS (SELECT pm.patient_num 
 		     FROM patient_mapping pm
 		     WHERE pm.patient_ide = '|| upload_temptable_name||'.patient_id
-                     and pm.patient_ide_source = '||upload_temptable_name||'.patient_id_source)';
+                     and pm.patient_ide_source = '||upload_temptable_name||'.patient_id_source
+                     and pm.project_id=''@'')';		     
 
 IF (appendFlag = 0) THEN
 --Archive records which are to be deleted in observation_fact table
