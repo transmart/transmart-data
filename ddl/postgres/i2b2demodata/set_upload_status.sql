@@ -2,12 +2,12 @@
 -- Name: set_upload_status; Type: TABLE; Schema: i2b2demodata; Owner: -
 --
 CREATE TABLE set_upload_status (
-    upload_id numeric NOT NULL,
+    upload_id integer NOT NULL,
     set_type_id integer NOT NULL,
     source_cd character varying(50) NOT NULL,
-    no_of_record numeric,
-    loaded_record numeric,
-    deleted_record numeric,
+    no_of_record bigint,
+    loaded_record bigint,
+    deleted_record bigint,
     load_date timestamp without time zone NOT NULL,
     end_date timestamp without time zone,
     load_status character varying(100),

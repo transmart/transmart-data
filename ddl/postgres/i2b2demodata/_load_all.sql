@@ -13,9 +13,9 @@
 \i i2b2demodata/functions/insert_modifier_fromtemp.sql
 \i i2b2demodata/functions/insert_patient_map_fromtemp.sql
 \i i2b2demodata/functions/insert_pid_map_fromtemp.sql
+\i i2b2demodata/functions/insert_patient_fromtemp.sql
 \i i2b2demodata/functions/insert_provider_fromtemp.sql
 \i i2b2demodata/functions/remove_temp_table.sql
-\i i2b2demodata/functions/sp_xtab.sql
 \i i2b2demodata/functions/sync_clear_concept_table.sql
 \i i2b2demodata/functions/sync_clear_modifier_table.sql
 \i i2b2demodata/functions/sync_clear_provider_table.sql

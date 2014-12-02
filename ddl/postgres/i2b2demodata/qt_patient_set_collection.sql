@@ -12,10 +12,10 @@ CREATE SEQUENCE qt_sq_qpr_pcid
 -- Name: qt_patient_set_collection; Type: TABLE; Schema: i2b2demodata; Owner: -
 --
 CREATE TABLE qt_patient_set_collection (
-    patient_set_coll_id numeric(10,0) DEFAULT nextval('qt_sq_qpr_pcid'::regclass) NOT NULL,
-    result_instance_id numeric(5,0),
-    set_index numeric(10,0),
-    patient_num numeric(10,0)
+    patient_set_coll_id bigint DEFAULT nextval('qt_sq_qpr_pcid'::regclass) NOT NULL,
+    result_instance_id integer,
+    set_index integer,
+    patient_num integer
 );
 
 --

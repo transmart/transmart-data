@@ -1,65 +1,52 @@
 --
--- Name: sync_clear_concept_table(character varying, character varying, numeric); Type: FUNCTION; Schema: i2b2demodata; Owner: -
+-- Name: sync_clear_concept_table(text, text, bigint); Type: FUNCTION; Schema: i2b2demodata; Owner: i2b2demodata
 --
-CREATE FUNCTION sync_clear_concept_table(tempconcepttablename character varying, backupconcepttablename character varying, uploadid numeric, OUT errormsg character varying) RETURNS character varying
-    LANGUAGE plpgsql
-    AS $$ DECLARE
 
+CREATE FUNCTION sync_clear_concept_table(tempconcepttablename text, backupconcepttablename text, uploadid bigint, OUT errormsg text) RETURNS text
+    LANGUAGE plpgsql
+    AS $$
 DECLARE
+ 
 interConceptTableName  varchar(400);
 
 BEGIN 
-	interConceptTableName := backupConceptTableName || '_inter';
-	
-		--Delete duplicate rows with same encounter and patient combination
-		-- smuniraju
-	-- execute 'DELETE FROM ' || tempConceptTableName || ' t1 WHERE rowid > 
-	-- 				   (SELECT  min(rowid) FROM ' || tempConceptTableName || ' t2
-	-- 				     WHERE t1.concept_cd = t2.concept_cd 
-    --                                         AND t1.concept_path = t2.concept_path
-    --                                         )';
-	execute 'DELETE FROM ' || tempConceptTableName || ' t1 
-	         WHERE ( ctid) NOT IN  
-					   (SELECT   max(rowid) FROM ' || tempConceptTableName || ' t2
-					     GROUP BY  concept_path,concept_cd)';
-						 
-    execute 'create table ' ||  interConceptTableName || ' (
-    CONCEPT_CD          VARCHAR(50) NOT NULL,
-	CONCEPT_PATH    	VARCHAR(700) NOT NULL,
-	NAME_CHAR       	VARCHAR(2000) NULL,
-	CONCEPT_BLOB        TEXT NULL,
-	UPDATE_DATE         DATE NULL,
-	DOWNLOAD_DATE       DATE NULL,
-	IMPORT_DATE         DATE NULL,
-	SOURCESYSTEM_CD     VARCHAR(50) NULL,
-	UPLOAD_ID       	NUMERIC(38,0) NULL,
+        interConceptTableName := backupConceptTableName || '_inter';
+                --Delete duplicate rows with same encounter and patient combination
+        EXECUTE 'DELETE FROM ' || tempConceptTableName || ' t1 WHERE oid > 
+                                           (SELECT  min(oid) FROM ' || tempConceptTableName || ' t2
+                                             WHERE t1.concept_cd = t2.concept_cd 
+                                            AND t1.concept_path = t2.concept_path
+                                            )';
+    EXECUTE 'create table ' ||  interConceptTableName || ' (
+    CONCEPT_CD          varchar(50) NOT NULL,
+        CONCEPT_PATH            varchar(700) NOT NULL,
+        NAME_CHAR               varchar(2000) NULL,
+        CONCEPT_BLOB        text NULL,
+        UPDATE_DATE         timestamp NULL,
+        DOWNLOAD_DATE       timestamp NULL,
+        IMPORT_DATE         timestamp NULL,
+        SOURCESYSTEM_CD     varchar(50) NULL,
+        UPLOAD_ID               numeric(38,0) NULL,
     CONSTRAINT '|| interConceptTableName ||'_pk  PRIMARY KEY(CONCEPT_PATH)
-	 )';
-    
+         )';
     --Create new patient(patient_mapping) if temp table patient_ide does not exists 
-	-- in patient_mapping table.
-	execute 'insert into '|| interConceptTableName ||'  (concept_cd,concept_path,name_char,concept_blob,update_date,download_date,import_date,sourcesystem_cd,upload_id)
-			    select  concept_cd, substr(concept_path,1,700),
+        -- in patient_mapping table.
+        EXECUTE 'insert into '|| interConceptTableName ||'  (concept_cd,concept_path,name_char,concept_blob,update_date,download_date,import_date,sourcesystem_cd,upload_id)
+                            PERFORM  concept_cd, substring(concept_path from 1 for 700),
                         name_char,concept_blob,
                         update_date,download_date,
-                        current_timestamp,sourcesystem_cd,
+                        LOCALTIMESTAMP,sourcesystem_cd,
                          ' || uploadId || '  from ' || tempConceptTableName || '  temp ';
-	--backup the concept_dimension table before creating a new one
-	execute 'alter table concept_dimension rename to ' || backupConceptTableName  ||'' ;
-    
-	-- add index on upload_id 
-    execute 'CREATE INDEX ' || interConceptTableName || '_uid_idx ON ' || interConceptTableName || '(UPLOAD_ID)';
-
+        --backup the concept_dimension table before creating a new one
+        EXECUTE 'alter table concept_dimension rename to ' || backupConceptTableName  ||'' ;
+        -- add index on upload_id 
+    EXECUTE 'CREATE INDEX ' || interConceptTableName || '_uid_idx ON ' || interConceptTableName || '(UPLOAD_ID)';
     -- add index on upload_id 
-    execute 'CREATE INDEX ' || interConceptTableName || '_cd_idx ON ' || interConceptTableName || '(concept_cd)';
-
-    
+    EXECUTE 'CREATE INDEX ' || interConceptTableName || '_cd_idx ON ' || interConceptTableName || '(concept_cd)';
     --backup the concept_dimension table before creating a new one
-	execute 'alter table ' || interConceptTableName  || ' rename to concept_dimension' ;
- 
+        EXECUTE 'alter table ' || interConceptTableName  || ' rename to concept_dimension' ;
 EXCEPTION
-	WHEN OTHERS THEN
-		RAISE EXCEPTION 'An error was encountered - % -ERROR- %', SQLSTATE, SQLERRM;	
+        WHEN OTHERS THEN
+                RAISE EXCEPTION 'An error was encountered - % -ERROR- %',SQLSTATE,SQLERRM;      
 END;
 $$;
-

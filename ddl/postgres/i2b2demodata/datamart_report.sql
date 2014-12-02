@@ -1,10 +1,10 @@
 --
--- Name: datamart_report; Type: TABLE; Schema: i2b2demodata; Owner: -
+-- Name: datamart_report; Type: TABLE; Schema: i2b2demodata; Owner: i2b2demodata; Tablespace: 
 --
+
 CREATE TABLE datamart_report (
-    total_patient numeric(38,0),
-    total_observationfact numeric(38,0),
-    total_event numeric(38,0),
+    total_patient integer,
+    total_observationfact integer,
+    total_event integer,
     report_date timestamp without time zone
 );
-

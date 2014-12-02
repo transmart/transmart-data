@@ -15,9 +15,9 @@ execute 'create table ' ||  tempPatientMappingTableName || ' (
 		PATIENT_NUM NUMERIC(38,0),
 	    PATIENT_MAP_ID_STATUS VARCHAR(50), 
 		PROCESS_STATUS_FLAG CHAR(1), 
-		UPDATE_DATE DATE, 
-		DOWNLOAD_DATE DATE, 
-		IMPORT_DATE DATE, 
+		UPDATE_DATE timestamp, 
+		DOWNLOAD_DATE timestamp, 
+		IMPORT_DATE timestamp, 
 		SOURCESYSTEM_CD VARCHAR(50)
 
 	 )';
@@ -34,7 +34,7 @@ execute 'CREATE INDEX idx_' || tempPatientMappingTableName || 'stat_pid_id ON ' 
     
 EXCEPTION
 	WHEN OTHERS THEN
-		RAISE NOTICE '% - %', SQLSTATE, SQLERRM;
+		RAISE NOTICE '%%%', SQLSTATE,  ' - ' , SQLERRM;
 END;
 
 $$;

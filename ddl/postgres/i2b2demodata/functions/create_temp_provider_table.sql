@@ -1,30 +1,28 @@
 --
--- Name: create_temp_provider_table(character varying); Type: FUNCTION; Schema: i2b2demodata; Owner: -
+-- Name: create_temp_provider_table(text); Type: FUNCTION; Schema: i2b2demodata; Owner: i2b2demodata
 --
-CREATE FUNCTION create_temp_provider_table(tempprovidertablename character varying, OUT errormsg character varying) RETURNS character varying
+
+CREATE FUNCTION create_temp_provider_table(tempprovidertablename text, OUT errormsg text) RETURNS text
     LANGUAGE plpgsql
-    AS $$ 
-
+    AS $$
 BEGIN 
+    EXECUTE 'create table ' ||  tempProviderTableName || ' (
+        PROVIDER_ID varchar(50) NOT NULL, 
+        PROVIDER_PATH varchar(700) NOT NULL, 
+        NAME_CHAR varchar(2000), 
+        PROVIDER_BLOB text, 
+        UPDATE_DATE timestamp, 
+        DOWNLOAD_DATE timestamp, 
+        IMPORT_DATE timestamp, 
+        SOURCESYSTEM_CD varchar(50), 
+        UPLOAD_ID numeric
+    ) WITH OIDS';
+    EXECUTE 'CREATE INDEX idx_' || tempProviderTableName || '_ppath_id ON ' || tempProviderTableName || '  (PROVIDER_PATH)';
+    EXCEPTION
+    WHEN OTHERS THEN
+        RAISE EXCEPTION 'An error was encountered - % -ERROR- %',SQLSTATE,SQLERRM;      
 
-execute 'create table ' ||  tempProviderTableName || ' (
-    PROVIDER_ID VARCHAR(50) NOT NULL, 
-	PROVIDER_PATH VARCHAR(700) NOT NULL, 
-	NAME_CHAR VARCHAR(2000), 
-	PROVIDER_BLOB TEXT, 
-	UPDATE_DATE DATE, 
-	DOWNLOAD_DATE DATE, 
-	IMPORT_DATE DATE, 
-	SOURCESYSTEM_CD VARCHAR(50), 
-	UPLOAD_ID NUMERIC(*,0)
-	 )';
- execute 'CREATE INDEX idx_' || tempProviderTableName || '_ppath_id ON ' || tempProviderTableName || '  (PROVIDER_PATH)';
-
-    
-EXCEPTION
-	WHEN OTHERS THEN
-		RAISE NOTICE '% - %', SQLSTATE, SQLERRM;
 END;
-
 $$;
+
 

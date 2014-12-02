@@ -12,15 +12,15 @@ CREATE SEQUENCE ont_sq_ps_prid
 -- Name: ont_process_status; Type: TABLE; Schema: i2b2metadata; Owner: -
 --
 CREATE TABLE ont_process_status (
-    process_id numeric(5,0) DEFAULT nextval('ont_sq_ps_prid'::regclass) NOT NULL,
+    process_id integer DEFAULT nextval('ont_sq_ps_prid'::regclass) NOT NULL,
     process_type_cd character varying(50),
     start_date timestamp without time zone,
     end_date timestamp without time zone,
     process_step_cd character varying(50),
     process_status_cd character varying(50),
-    crc_upload_id character varying(5),
+    crc_upload_id integer,
     status_cd character varying(50),
-    message character varying(2000),
+    message text,
     entry_date timestamp without time zone,
     change_date timestamp without time zone,
     changedby_char character(50)

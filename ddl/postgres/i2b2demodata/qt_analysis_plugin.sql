@@ -2,7 +2,7 @@
 -- Name: qt_analysis_plugin; Type: TABLE; Schema: i2b2demodata; Owner: -
 --
 CREATE TABLE qt_analysis_plugin (
-    plugin_id numeric(10,0) NOT NULL,
+    plugin_id integer NOT NULL,
     plugin_name character varying(2000),
     description character varying(2000),
     version_cd character varying(50),

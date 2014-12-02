@@ -12,18 +12,19 @@ CREATE SEQUENCE qt_sq_qm_qmid
 -- Name: qt_query_master; Type: TABLE; Schema: i2b2demodata; Owner: -
 --
 CREATE TABLE qt_query_master (
-    query_master_id numeric(5,0) DEFAULT nextval('qt_sq_qm_qmid'::regclass) NOT NULL,
+    query_master_id integer DEFAULT nextval('qt_sq_qm_qmid'::regclass) NOT NULL,
     name character varying(250) NOT NULL,
     user_id character varying(50) NOT NULL,
     group_id character varying(50) NOT NULL,
     master_type_cd character varying(2000),
-    plugin_id numeric(10,0),
+    plugin_id integer,
     create_date timestamp without time zone NOT NULL,
     delete_date timestamp without time zone,
     delete_flag character varying(3),
     generated_sql text,
     request_xml text,
     i2b2_request_xml text
+    pm_xml text
 );
 
 --

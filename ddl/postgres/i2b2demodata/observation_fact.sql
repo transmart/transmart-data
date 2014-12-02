@@ -2,13 +2,13 @@
 -- Name: observation_fact; Type: TABLE; Schema: i2b2demodata; Owner: -
 --
 CREATE TABLE observation_fact (
-    encounter_num numeric(38,0),
-    patient_num numeric(38,0) NOT NULL,
+    encounter_num integer NOT NULL,
+    patient_num integer NOT NULL,
     concept_cd character varying(50) NOT NULL,
     provider_id character varying(50) NOT NULL,
-    start_date timestamp without time zone,
-    modifier_cd character varying(100) NOT NULL,
-    instance_num numeric(18,0),
+    start_date timestamp without time zone NOT NULL,
+    modifier_cd character varying(100) DEFAULT '@'::character varying NOT NULL,
+    instance_num integer DEFAULT 1 NOT NULL,
     valtype_cd character varying(50),
     tval_char character varying(255),
     nval_num numeric(18,5),
@@ -23,7 +23,7 @@ CREATE TABLE observation_fact (
     download_date timestamp without time zone,
     import_date timestamp without time zone,
     sourcesystem_cd character varying(50),
-    upload_id numeric(38,0),
+    upload_id integer,
     sample_cd character varying(200)
 );
 

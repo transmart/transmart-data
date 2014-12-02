@@ -12,13 +12,13 @@ CREATE SEQUENCE sq_uploadstatus_uploadid
 -- Name: upload_status; Type: TABLE; Schema: i2b2demodata; Owner: -
 --
 CREATE TABLE upload_status (
-    upload_id numeric(38,0) DEFAULT nextval('sq_uploadstatus_uploadid'::regclass) NOT NULL,
+    upload_id integer DEFAULT nextval('sq_uploadstatus_uploadid'::regclass) NOT NULL,
     upload_label character varying(500) NOT NULL,
     user_id character varying(100) NOT NULL,
     source_cd character varying(50) NOT NULL,
-    no_of_record numeric,
-    loaded_record numeric,
-    deleted_record numeric,
+    no_of_record bigint,
+    loaded_record bigint,
+    deleted_record bigint,
     load_date timestamp without time zone NOT NULL,
     end_date timestamp without time zone,
     load_status character varying(100),

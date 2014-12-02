@@ -2,15 +2,15 @@
 -- Name: concept_dimension; Type: TABLE; Schema: i2b2demodata; Owner: -
 --
 CREATE TABLE concept_dimension (
-    concept_cd character varying(50) NOT NULL,
     concept_path character varying(700) NOT NULL,
+    concept_cd character varying(50),
     name_char character varying(2000),
     concept_blob text,
     update_date timestamp without time zone,
     download_date timestamp without time zone,
     import_date timestamp without time zone,
     sourcesystem_cd character varying(50),
-    upload_id bigint,
+    upload_id integer,
     table_name character varying(255)
 );
 

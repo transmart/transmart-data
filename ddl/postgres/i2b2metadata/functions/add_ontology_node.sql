@@ -1,3 +1,5 @@
+-- NOTE: not in i2b2 schema for i2b2demo data - version 1.7 - 02Dec2014 - Terry Weymouth
+
 --
 -- Name: add_ontology_node(character varying, character varying, character varying, character varying, character varying); Type: FUNCTION; Schema: i2b2metadata; Owner: -
 --

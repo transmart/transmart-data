@@ -1,30 +1,24 @@
 --
--- Name: create_temp_concept_table(character varying); Type: FUNCTION; Schema: i2b2demodata; Owner: -
+-- Name: create_temp_concept_table(text); Type: FUNCTION; Schema: i2b2demodata; Owner: i2b2demodata
 --
-CREATE FUNCTION create_temp_concept_table(tempconcepttablename character varying, OUT errormsg character varying) RETURNS character varying
+CREATE FUNCTION create_temp_concept_table(tempconcepttablename text, OUT errormsg text) RETURNS text
     LANGUAGE plpgsql
     AS $$
-
 BEGIN 
-execute 'create table ' ||  tempConceptTableName || ' (
-        CONCEPT_CD VARCHAR(50) NOT NULL, 
-	CONCEPT_PATH VARCHAR(900) NOT NULL , 
-	NAME_CHAR VARCHAR(2000), 
-	CONCEPT_BLOB TEXT, 
-	UPDATE_DATE date, 
-	DOWNLOAD_DATE DATE, 
-	IMPORT_DATE DATE, 
-	SOURCESYSTEM_CD VARCHAR(50)
-	 )';
-
- execute 'CREATE INDEX idx_' || tempConceptTableName || '_pat_id ON ' || tempConceptTableName || '  (CONCEPT_PATH)';
-  
-   
-
-EXCEPTION
-	WHEN OTHERS THEN
-		RAISE NOTICE '% - %', SQLSTATE, SQLERRM;
+    EXECUTE 'create table ' ||  tempConceptTableName || ' (
+        CONCEPT_CD varchar(50) NOT NULL, 
+        CONCEPT_PATH varchar(900) NOT NULL , 
+        NAME_CHAR varchar(2000), 
+        CONCEPT_BLOB text, 
+        UPDATE_DATE timestamp, 
+        DOWNLOAD_DATE timestamp, 
+        IMPORT_DATE timestamp, 
+        SOURCESYSTEM_CD varchar(50)
+    ) WITH OIDS';
+    EXECUTE 'CREATE INDEX idx_' || tempConceptTableName || '_pat_id ON ' || tempConceptTableName || '  (CONCEPT_PATH)';
+    EXCEPTION
+    WHEN OTHERS THEN
+        RAISE EXCEPTION 'An error was encountered - % -ERROR- %',SQLSTATE,SQLERRM;      
 END;
-
 $$;
 

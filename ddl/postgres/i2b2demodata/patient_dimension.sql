@@ -2,25 +2,25 @@
 -- Name: patient_dimension; Type: TABLE; Schema: i2b2demodata; Owner: -
 --
 CREATE TABLE patient_dimension (
-    patient_num numeric(38,0) NOT NULL,
+    patient_num integer NOT NULL,
     vital_status_cd character varying(50),
     birth_date timestamp without time zone,
     death_date timestamp without time zone,
     sex_cd character varying(50),
-    age_in_years_num numeric(38,0),
+    age_in_years_num integer,
     language_cd character varying(50),
     race_cd character varying(50),
     marital_status_cd character varying(50),
     religion_cd character varying(50),
-    zip_cd character varying(50),
+    zip_cd character varying(10),
     statecityzip_path character varying(700),
     income_cd character varying(50),
     patient_blob text,
     update_date timestamp without time zone,
     download_date timestamp without time zone,
     import_date timestamp without time zone,
-    sourcesystem_cd character varying(107),
-    upload_id numeric(38,0)
+    sourcesystem_cd character varying(50),
+    upload_id integer
 );
 
 --

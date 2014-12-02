@@ -12,12 +12,12 @@ CREATE SEQUENCE i2b2_record_id_seq
 -- Name: i2b2; Type: TABLE; Schema: i2b2metadata; Owner: -
 --
 CREATE TABLE i2b2 (
-    c_hlevel numeric(22,0) NOT NULL,
+    c_hlevel integer NOT NULL,
     c_fullname character varying(700) NOT NULL,
     c_name character varying(2000) NOT NULL,
     c_synonym_cd character(1) NOT NULL,
     c_visualattributes character(3) NOT NULL,
-    c_totalnum numeric(22,0),
+    c_totalnum integer,
     c_basecode character varying(50),
     c_metadataxml text,
     c_facttablecolumn character varying(50) NOT NULL,

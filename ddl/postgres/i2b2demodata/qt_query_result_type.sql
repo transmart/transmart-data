@@ -12,7 +12,7 @@ CREATE SEQUENCE qt_sq_qr_qrid
 -- Name: qt_query_result_type; Type: TABLE; Schema: i2b2demodata; Owner: -
 --
 CREATE TABLE qt_query_result_type (
-    result_type_id numeric(3,0) DEFAULT nextval('qt_sq_qr_qrid'::regclass) NOT NULL,
+    result_type_id integer DEFAULT nextval('qt_sq_qr_qrid'::regclass) NOT NULL,
     name character varying(100),
     description character varying(200),
     display_type_id character varying(500),

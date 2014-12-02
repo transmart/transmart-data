@@ -12,15 +12,15 @@ CREATE SEQUENCE qt_sq_qi_qiid
 -- Name: qt_query_instance; Type: TABLE; Schema: i2b2demodata; Owner: -
 --
 CREATE TABLE qt_query_instance (
-    query_instance_id numeric(5,0) DEFAULT nextval('qt_sq_qi_qiid'::regclass) NOT NULL,
-    query_master_id numeric(5,0),
+    query_instance_id integer DEFAULT nextval('qt_sq_qi_qiid'::regclass) NOT NULL,
+    query_master_id integer,
     user_id character varying(50) NOT NULL,
     group_id character varying(50) NOT NULL,
     batch_mode character varying(50),
     start_date timestamp without time zone NOT NULL,
     end_date timestamp without time zone,
     delete_flag character varying(3),
-    status_type_id numeric(5,0),
+    status_type_id integer,
     message text
 );
 

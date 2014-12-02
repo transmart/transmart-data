@@ -12,7 +12,7 @@ CREATE SEQUENCE qt_sq_pqm_qmid
 -- Name: qt_pdo_query_master; Type: TABLE; Schema: i2b2demodata; Owner: -
 --
 CREATE TABLE qt_pdo_query_master (
-    query_master_id numeric(5,0) DEFAULT nextval('qt_sq_pqm_qmid'::regclass) NOT NULL,
+    query_master_id integer DEFAULT nextval('qt_sq_pqm_qmid'::regclass) NOT NULL,
     user_id character varying(50) NOT NULL,
     group_id character varying(50) NOT NULL,
     create_date timestamp without time zone NOT NULL,

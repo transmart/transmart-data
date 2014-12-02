@@ -1,6 +1,7 @@
 --
--- Name: code_lookup; Type: TABLE; Schema: i2b2demodata; Owner: -
+-- Name: code_lookup; Type: TABLE; Schema: i2b2demodata; Owner: i2b2demodata; Tablespace: 
 --
+
 CREATE TABLE code_lookup (
     table_cd character varying(100) NOT NULL,
     column_cd character varying(100) NOT NULL,
@@ -12,7 +13,7 @@ CREATE TABLE code_lookup (
     download_date timestamp without time zone,
     import_date timestamp without time zone,
     sourcesystem_cd character varying(50),
-    upload_id numeric(38,0)
+    upload_id integer
 );
 
 --

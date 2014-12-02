@@ -2,21 +2,21 @@
 -- Name: visit_dimension; Type: TABLE; Schema: i2b2demodata; Owner: -
 --
 CREATE TABLE visit_dimension (
-    encounter_num numeric(38,0) NOT NULL,
-    patient_num numeric(38,0) NOT NULL,
+    encounter_num integer NOT NULL,
+    patient_num integer NOT NULL,
     active_status_cd character varying(50),
     start_date timestamp without time zone,
     end_date timestamp without time zone,
     inout_cd character varying(50),
     location_cd character varying(50),
     location_path character varying(900),
-    length_of_stay numeric(38,0),
+    length_of_stay integer,
     visit_blob text,
     update_date timestamp without time zone,
     download_date timestamp without time zone,
     import_date timestamp without time zone,
     sourcesystem_cd character varying(50),
-    upload_id numeric(38,0)
+    upload_id integer
 );
 
 --
