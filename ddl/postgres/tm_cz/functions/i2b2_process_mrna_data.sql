@@ -4,6 +4,7 @@
 CREATE FUNCTION i2b2_process_mrna_data(trial_id character varying, top_node character varying, data_type character varying DEFAULT 'R'::character varying, source_cd character varying DEFAULT 'STD'::character varying, log_base numeric DEFAULT 2, secure_study character varying DEFAULT 'N'::character varying, currentjobid numeric DEFAULT (-1)) RETURNS numeric
     LANGUAGE plpgsql SECURITY DEFINER
     AS $$
+
 /*************************************************************************
 * Copyright 2008-2012 Janssen Research & Development, LLC.
 *
@@ -375,10 +376,10 @@ BEGIN
 		  and sm.platform = 'MRNA_AFFYMETRIX';
 	end if;
 
---	partitionName := 'deapp.de_subject_microarray_data_' || partitionId::text;
---	partitionIndx := 'de_subject_microarray_data_' || partitionId::text;
-        partitionName := 'deapp.de_subject_microarray_data';-- || partitionId::text;
-        partitionIndx := 'de_subject_microarray_data';-- || partitionId::text;
+	partitionName := 'deapp.de_subject_microarray_data_' || partitionId::text; -- revert to using partitions
+	partitionIndx := 'de_subject_microarray_data_' || partitionId::text; -- revert to using partitions
+	-- partitionName := 'deapp.de_subject_microarray_data';
+	-- partitionIndx := 'de_subject_microarray_data';
 
 	--	truncate tmp node table
 
@@ -644,27 +645,6 @@ BEGIN
 		select tm_cz.i2b2_fill_in_tree(TrialId, r_addNodes.leaf_node, jobID) into rtnCd;
 
 	END LOOP;
-
-	--	set sourcesystem_cd, c_comment to null if any added upper-level nodes
-
-	begin
-	update i2b2metadata.i2b2 b
-	set sourcesystem_cd=null,c_comment=null
-	where b.sourcesystem_cd = TrialId
-	  and length(b.c_fullname) < length(topNode);
-	get diagnostics rowCt := ROW_COUNT;
-	exception
-	when others then
-		errorNumber := SQLSTATE;
-		errorMessage := SQLERRM;
-		--Handle errors.
-		select tm_cz.cz_error_handler (jobID, procedureName, errorNumber, errorMessage) into rtnCd;
-		--End Proc
-		select tm_cz.cz_end_audit (jobID, 'FAIL') into rtnCd;
-		return -16;
-	end;
-	stepCt := stepCt + 1;
-	select tm_cz.cz_write_audit(jobId,databaseName,procedureName,'Set sourcesystem_cd to null for added upper level nodes',rowCt,stepCt,'Done') into rtnCd;
 
 	--	update concept_cd for nodes, this is done to make the next insert easier
 
@@ -1089,12 +1069,12 @@ BEGIN
 	where table_name = partitionindx;
 	
 	if pExists = 0 then
---		sqlText := 'create table ' || partitionName || ' ( constraint mrna_' || partitionId::text || '_check check ( partition_id = ' || partitionId::text ||
---					')) inherits (deapp.de_subject_microarray_data)';
---		raise notice 'sqlText= %', sqlText;
---		execute sqlText;
---		stepCt := stepCt + 1;
---		select tm_cz.cz_write_audit(jobId,databaseName,procedureName,'Create partition ' || partitionName,1,stepCt,'Done') into rtnCd;
+		sqlText := 'create table ' || partitionName || ' ( constraint mrna_' || partitionId::text || '_check check ( partition_id = ' || partitionId::text ||
+					')) inherits (deapp.de_subject_microarray_data)';
+		raise notice 'sqlText= %', sqlText;
+		execute sqlText;
+		stepCt := stepCt + 1;
+		select tm_cz.cz_write_audit(jobId,databaseName,procedureName,'Create partition ' || partitionName,1,stepCt,'Done') into rtnCd;
 	else
         -- Keep this statement for backward compatibility
 		sqlText := 'drop index if exists ' || partitionIndx || '_idx1';

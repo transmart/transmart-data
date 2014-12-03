@@ -17,12 +17,11 @@ def explodedWarDir    = catalinaBase + '/webapps/transmart'
 def solrPort          = 8080 //port of appserver where solr runs (under ctx path /solr)
 def searchIndex       = catalinaBase + '/searchIndex' //create this directory
 // for running transmart as WAR, create this directory and then create an alias
-// old versions of transmart also require an alias in tomcat or apache from
-// to expose this directory as <context path>/images/<RModules.imageURL>
-// (usually transmart/images/tempImages)
 def jobsDirectory     = "/var/tmp/jobs/"
 def oauthEnabled      = true
 def samlEnabled       = false
+def gwavaEnabled      = false
+def transmartURL      = "http://localhost:${System.getProperty('server.port', '8080')}/transmart/"
 
 // I001 – Insertion point 'post-WAR-variables'
 
@@ -37,6 +36,12 @@ def samlEnabled       = false
  * the generated file directly, create a Config-extra.groovy file in the root of
  * the transmart-data checkout. That file will be appended to this one whenever
  * the Config.groovy target is run */
+
+environments { production {
+    if (transmartURL.startsWith('http://localhost:')) {
+        println "[WARN] transmartURL not overriden. Some settings (e.g. help page) may be wrong"
+    }
+} }
 
 /* {{{ Log4J Configuration */
 log4j = {
@@ -95,7 +100,7 @@ environments {
 }
 /* }}} */
 
-/* {{{ Personalization & login */
+/* {{{ Personalization */
 // application logo to be used in the login page
 com.recomdata.largeLogo = "transmartlogo.jpg"
 
@@ -103,15 +108,39 @@ com.recomdata.largeLogo = "transmartlogo.jpg"
 com.recomdata.searchtool.smallLogo="transmartlogosmall.jpg"
 
 // contact email address
-com.recomdata.contactUs = "mailto:transmartGPLsupport@recomdata.com"
+com.recomdata.contactUs = "mailto:transmart-discuss@googlegroups.com"
 
 // application title
-com.recomdata.appTitle = "tranSMART v" + org.transmart.originalConfigBinding.appVersion +  " (GPL, PostgresSQL)"
+com.recomdata.appTitle = "tranSMART v" + org.transmart.originalConfigBinding.appVersion
 
 // Location of the help pages
 // Currently, these are distribution with transmart, so it can also point to
 // that location copy. Should be an absolute URL
-com.recomdata.adminHelpURL = "http://23.23.185.167/transmart/help/adminHelp/default.htm"
+com.recomdata.adminHelpURL = "$transmartURL/help/adminHelp/default.htm"
+
+environments { development {
+    com.recomdata.bugreportURL = 'https://jira.transmartfoundation.org'
+} }
+
+// Keys without defaults (see Config-extra.php.sample):
+// com.recomdata.projectName
+// com.recomdata.providerName
+// com.recomdata.providerURL
+/* }}} */
+
+/* {{{ Login */
+// Session timeout and heartbeat frequency (ping interval)
+com.recomdata.sessionTimeout = 300
+com.recomdata.heartbeatLaps = 30
+
+environments { development {
+    com.recomdata.sessionTimeout = Integer.MAX_VALUE / 1000 as int /* ~24 days */
+    com.recomdata.heartbeatLaps = 900
+} }
+
+// Not enabled by default (see Config-extra.php.sample)
+//com.recomdata.passwordstrength.pattern
+//com.recomdata.passwordstrength.description
 
 // Whether to enable guest auto login.
 // If it's enabled no login is required to access tranSMART.
@@ -131,6 +160,37 @@ com.recomdata.guestUserName = 'guest'
 com.recomdata.searchengine.index = searchIndex
 
 /* see also com.recomdata.searchtool.smallogo in the personalization section */
+/* }}} */
+
+/* {{{ Sample Explorer configuration */
+
+// This is an object to dictate the names and 'pretty names' of the SOLR fields.
+// Optionally you can set the width of each of the columns when rendered.
+
+sampleExplorer {
+    fieldMapping = [
+        columns:[
+            [header:'Sample ID',dataIndex:'id', mainTerm: false, showInGrid: false],
+            [header:'BioBank', dataIndex:'BioBank', mainTerm: true, showInGrid: true, width:10],
+            [header:'Source Organism', dataIndex:'Source_Organism', mainTerm: true, showInGrid: true, width:10]
+            // Continue as you have fields
+        ]
+    ]
+    resultsGridHeight = 100
+    resultsGridWidth = 100
+    idfield = 'id'
+}
+
+edu.harvard.transmart.sampleBreakdownMap = [
+    "id":"Aliquots in Cohort"
+]
+
+// Solr configuration for the Sample Explorer
+com { recomdata { solr {
+    maxNewsStories = 10
+    maxRows = 10000
+}}}
+
 /* }}} */
 
 /* {{{ Dataset Explorer configuration */
@@ -155,6 +215,10 @@ com.recomdata.plugins.resultSize = 5000
 
 /* {{{ RModules & Data Export Configuration */
 environments {
+    // This is to target a remove Rserv. Bear in mind the need for shared network storage
+    RModules.host = "127.0.0.1"
+    RModules.port = 6311
+
     // This is not used in recent versions; the URL is always /analysisFiles/
     RModules.imageURL = "/tempImages/" //must end and start with /
 
@@ -204,6 +268,12 @@ environments {
 }
 
 grails.resources.adhoc.excludes = [ '/images' + RModules.imageURL + '**' ]
+
+// Adding properties to the Build information panel
+buildInfo { properties {
+   include = [ 'app.grails.version', 'build.groovy' ]
+   exclude = [ 'env.proc.cores' ]
+} }
 
 /* }}} */
 
@@ -411,8 +481,17 @@ if (samlEnabled) {
         samlEnabled = false
     } } }
 }
+/* }}} */
 
-// }}}
+/* {{{ gwava */
+if (gwavaEnabled) {
+    com.recomdata.rwg.webstart.codebase      = "$transmartURL/gwava"
+    com.recomdata.rwg.webstart.jar           = './ManhattanViz2.1g.jar'
+    com.recomdata.rwg.webstart.mainClass     = 'com.pfizer.mrbt.genomics.Driver'
+    com.recomdata.rwg.webstart.gwavaInstance = 'transmartstg'
+    com.recomdata.rwg.webstart.transmart.url = "$transmartURL/transmart"
+}
+/* }}} */
 
 /* {{{ Quartz jobs configuration */
 // start delay for the sweep job
