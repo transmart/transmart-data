@@ -15,6 +15,7 @@ $spec = [
         ['SEARCHAPP',    '*SEQUENCE',                 'READ', ''],
         ['FMAPP',        '*TABLE',                    'WRITE', ''],
         ['AMAPP',        '*TABLE',                    'WRITE', ''],
+        ['AMAPP',        '*VIEW',                     'READ', ''],
         ['I2B2DEMODATA', 'QT_QUERY_MASTER',           'WRITE', ''],
         ['I2B2DEMODATA', 'QT_QUERY_INSTANCE',         'WRITE', ''],
         ['I2B2DEMODATA', 'QT_QUERY_RESULT_INSTANCE',  'WRITE', ''],
