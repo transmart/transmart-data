@@ -8,7 +8,6 @@ CREATE TABLE import_xnat_configuration (
     description text,
     url character varying(255) NOT NULL,
     username character varying(255) NOT NULL,
-    password character varying(255) NOT NULL,
     project character varying(255) NOT NULL,
     node character varying(255) NOT NULL
 );
