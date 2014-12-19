@@ -99,17 +99,10 @@ def createMappingFile(mappingList):
     transmartMappingFile.close()
     return
 
-def runKettleJob(node):
-    process = subprocess.Popen(["./command.sh", node], cwd="/home/jenkins/foundation/transmart-data/env/data-integration/")
+def runKettleJob(node, kettledir):
+    process = subprocess.Popen(["./command.sh", node], cwd=kettledir)
     process.wait()
     return
-
-# Input vars
-#xnat_address = 'http://192.168.229.162'
-#username = 'admin'
-#password = 'admin'
-#project = 'test'
-#node = 'BrainStudy08'
 
 def main():
     xnat_address = sys.argv[1]
@@ -117,6 +110,7 @@ def main():
     password = sys.argv[3]
     project = sys.argv[4]
     node = sys.argv[5]
+    kettledir = sys.argv[6]
 
     interface = loadXNAT(xnat_address, username, password, project)
     try:
@@ -129,7 +123,7 @@ def main():
     mappingList = loadMappingList(project)
     createDatafile(interface, project, subjects, variableList, mappingList)
     createMappingFile(mappingList)
-    runKettleJob(node)
+    runKettleJob(node, kettledir)
     print "Import complete! <a target=\"_blank\" href=\"/transmart/datasetExplorer/\">Click here to browse the data in the dataset explorer.</a> The data is stored in node " + TM_STUDY + "\\" + node
     return
 
