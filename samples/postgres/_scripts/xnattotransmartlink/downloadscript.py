@@ -130,7 +130,7 @@ def main():
     createDatafile(interface, project, subjects, variableList, mappingList)
     createMappingFile(mappingList)
     runKettleJob(node)
-    print "Import complete! <a target=\"_blank\" href=\"/transmart/datasetExplorer/\">Click here to browse the data in the dataset explorer.</a> The data is stored in node " + TM_STUDY + "\\" + project
+    print "Import complete! <a target=\"_blank\" href=\"/transmart/datasetExplorer/\">Click here to browse the data in the dataset explorer.</a> The data is stored in node " + TM_STUDY + "\\" + node
     return
 
 main()
