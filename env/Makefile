@@ -1,7 +1,9 @@
 KETTLE_VERSION=4.4.0
 
 UBUNTU_PACKAGES=postgresql make git rsync libcairo-dev php5-cli php5-json curl \
-				tar openjdk-7-jdk gfortran g++ unzip libreadline-dev
+				tar openjdk-7-jdk gfortran g++ unzip libreadline-dev \
+				libxt-dev libpango1.0-dev texlive-fonts-recommended tex-gyre \
+				fonts-dejavu-core
 
 GROOVY_VERSION=2.1.9
 
@@ -48,7 +50,10 @@ $(TRANSMART_BATCH_FILE):
 	curl -s -L -f -R -z '$@' -o '$@' '$(TRANSMART_BATCH_URL)'
 	@chmod +x '$@'
 
-batchdb-psql.properties: batchdb-psql.properties.php  ../vars
+batchdb-psql.properties: batchdb-psql.properties.php ../vars
+	php -d variables_order=E '$<' > '$@'
+
+batchdb-oracle.properties: batchdb-oracle.properties.php ../vars
 	php -d variables_order=E '$<' > '$@'
 
 # for redownload
