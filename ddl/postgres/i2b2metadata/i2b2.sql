@@ -42,15 +42,14 @@ CREATE TABLE i2b2 (
 );
 
 --
--- Name: i2b2_c_fullname_uq; Type: CONSTRAINT; Schema: i2b2metadata; Owner: -
---
-ALTER TABLE ONLY i2b2
-    ADD CONSTRAINT i2b2_c_fullname_uq UNIQUE (c_fullname);
-
---
 -- Name: i2b2_c_comment_char_length_idx; Type: INDEX; Schema: i2b2metadata; Owner: -
 --
 CREATE INDEX i2b2_c_comment_char_length_idx ON i2b2 USING btree (c_comment, char_length((c_fullname)::text));
+
+--
+-- Name: i2b2_c_fullname_index; Type: INDEX; Schema: i2b2metadata; Owner: -
+--
+CREATE INDEX i2b2_c_fullname_index ON i2b2 USING btree (c_fullname);
 
 --
 -- Name: i2b2meta_idx_record_id; Type: INDEX; Schema: i2b2metadata; Owner: -

@@ -44,12 +44,6 @@ SET default_with_oids = false;
 CREATE TRIGGER trg_i2b2_tag_id BEFORE INSERT ON i2b2_tags FOR EACH ROW EXECUTE PROCEDURE tf_trg_i2b2_tag_id();
 
 --
--- Name: i2b2_tags_path_fk; Type: FK CONSTRAINT; Schema: i2b2metadata; Owner: -
---
-ALTER TABLE ONLY i2b2_tags
-    ADD CONSTRAINT i2b2_tags_path_fk FOREIGN KEY (path) REFERENCES i2b2(c_fullname) ON DELETE CASCADE;
-
---
 -- Name: seq_i2b2_data_id; Type: SEQUENCE; Schema: i2b2metadata; Owner: -
 --
 CREATE SEQUENCE seq_i2b2_data_id
