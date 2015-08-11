@@ -1866,6 +1866,13 @@
     "child" : {
       "type" : "TABLE",
       "owner" : "BIOMART",
+      "name" : "BIO_RECOMBINATION_RATES"
+    },
+    "parents" : [ ]
+  }, {
+    "child" : {
+      "type" : "TABLE",
+      "owner" : "BIOMART",
       "name" : "BIO_SAMPLE"
     },
     "parents" : [ {
@@ -1974,6 +1981,28 @@
       "type" : "TABLE",
       "owner" : "BIOMART",
       "name" : "BIO_DATA_TAXONOMY"
+    } ]
+  }, {
+    "child" : {
+      "type" : "INDEX",
+      "owner" : "BIOMART",
+      "name" : "B_ASY_GWAS_T50_IDX1"
+    },
+    "parents" : [ {
+      "type" : "TABLE",
+      "owner" : "BIOMART",
+      "name" : "BIO_ASY_ANALYSIS_GWAS_TOP50"
+    } ]
+  }, {
+    "child" : {
+      "type" : "INDEX",
+      "owner" : "BIOMART",
+      "name" : "B_ASY_GWAS_T50_IDX2"
+    },
+    "parents" : [ {
+      "type" : "TABLE",
+      "owner" : "BIOMART",
+      "name" : "BIO_ASY_ANALYSIS_GWAS_TOP50"
     } ]
   }, {
     "child" : {
@@ -4917,6 +4946,13 @@
     "item" : {
       "type" : "TABLE",
       "owner" : "BIOMART",
+      "name" : "BIO_RECOMBINATION_RATES"
+    },
+    "file" : "biomart/bio_recombination_rates.sql"
+  }, {
+    "item" : {
+      "type" : "TABLE",
+      "owner" : "BIOMART",
       "name" : "BIO_SAMPLE"
     },
     "file" : "biomart/bio_sample.sql"
@@ -4990,6 +5026,20 @@
       "name" : "BIO_TAXON_FK"
     },
     "file" : "biomart/bio_data_taxonomy.sql"
+  }, {
+    "item" : {
+      "type" : "INDEX",
+      "owner" : "BIOMART",
+      "name" : "B_ASY_GWAS_T50_IDX1"
+    },
+    "file" : "biomart/bio_asy_analysis_gwas_top50.sql"
+  }, {
+    "item" : {
+      "type" : "INDEX",
+      "owner" : "BIOMART",
+      "name" : "B_ASY_GWAS_T50_IDX2"
+    },
+    "file" : "biomart/bio_asy_analysis_gwas_top50.sql"
   }, {
     "item" : {
       "type" : "REF_CONSTRAINT",
