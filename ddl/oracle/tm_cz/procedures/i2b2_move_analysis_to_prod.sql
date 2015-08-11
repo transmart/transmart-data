@@ -1,7 +1,7 @@
 --
 -- Type: PROCEDURE; Owner: TM_CZ; Name: I2B2_MOVE_ANALYSIS_TO_PROD
 --
-  CREATE OR REPLACE PROCEDURE "TM_CZ"."I2B2_MOVE_ANALYSIS_TO_PROD" 
+  CREATE OR REPLACE PROCEDURE "TM_CZ"."I2B2_MOVE_ANALYSIS_TO_PROD"
 (i_etl_id        number    := -1
 ,i_job_id        number    := null
 )
@@ -145,10 +145,7 @@ AS
                                                 then tm_cz.repeat_char(ext_data,v_max_ext_flds-(length(ext_data)-length(replace(ext_data,';',''))),';')
                                                 else ext_data
                                    end
-                  ,case when log10_pval_char is null then log(10,to_binary_double(p_value_char))*-1
-                  else
-                  to_binary_double(log10_pval_char)
-                  end
+                  ,to_binary_double(log10_pval_char)
             from biomart_stage.bio_assay_analysis_gwas
             where bio_assay_analysis_id = v_bio_assay_analysis_id;
             stepCt := stepCt + 1;
@@ -183,7 +180,8 @@ AS
                         commit;
 
                         --        load top50 table
-                        i2b2_load_gwas_top50(v_bio_assay_analysis_id, jobID);
+                        --i2b2_load_gwas_top50(v_bio_assay_analysis_id, jobID);
+                        i2b2_load_gwas_top50();
 
                 else
                         --        EQTL data
@@ -274,7 +272,8 @@ AS
             commit;
 
                         --        load top50 table
-                        i2b2_load_eqtl_top50(v_bio_assay_analysis_id, jobID);
+                       -- i2b2_load_eqtl_top50(v_bio_assay_analysis_id, jobID);
+                        i2b2_load_eqtl_top50();
 
                 end if;
         end loop;
@@ -348,6 +347,5 @@ AS
         cz_error_handler (jobID, procedureName);
     --End Proc
         cz_end_audit (jobID, 'FAIL');
-
-END;
+    END;
 /

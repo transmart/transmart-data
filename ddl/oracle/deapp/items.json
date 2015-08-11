@@ -432,6 +432,39 @@
     "parents" : [ ]
   }, {
     "child" : {
+      "type" : "INDEX",
+      "owner" : "DEAPP",
+      "name" : "DE_RC_SNP_INFO_CHROM"
+    },
+    "parents" : [ {
+      "type" : "TABLE",
+      "owner" : "DEAPP",
+      "name" : "DE_RC_SNP_INFO"
+    } ]
+  }, {
+    "child" : {
+      "type" : "INDEX",
+      "owner" : "DEAPP",
+      "name" : "DE_RC_SNP_INFO_HG_RS"
+    },
+    "parents" : [ {
+      "type" : "TABLE",
+      "owner" : "DEAPP",
+      "name" : "DE_RC_SNP_INFO"
+    } ]
+  }, {
+    "child" : {
+      "type" : "INDEX",
+      "owner" : "DEAPP",
+      "name" : "DE_RC_SNP_INFO_POS"
+    },
+    "parents" : [ {
+      "type" : "TABLE",
+      "owner" : "DEAPP",
+      "name" : "DE_RC_SNP_INFO"
+    } ]
+  }, {
+    "child" : {
       "type" : "SEQUENCE",
       "owner" : "DEAPP",
       "name" : "DE_RC_SNP_INFO_SEQ"
@@ -533,11 +566,7 @@
       "owner" : "DEAPP",
       "name" : "DE_SNP_GENE_MAP"
     },
-    "parents" : [ {
-      "type" : "TABLE",
-      "owner" : "DEAPP",
-      "name" : "DE_SNP_INFO"
-    } ]
+    "parents" : [ ]
   }, {
     "child" : {
       "type" : "TABLE",
@@ -1059,17 +1088,6 @@
     "parents" : [ ]
   }, {
     "child" : {
-      "type" : "INDEX",
-      "owner" : "DEAPP",
-      "name" : "ENTREZ_IDX1"
-    },
-    "parents" : [ {
-      "type" : "TABLE",
-      "owner" : "DEAPP",
-      "name" : "DE_SNP_GENE_MAP"
-    } ]
-  }, {
-    "child" : {
       "type" : "REF_CONSTRAINT",
       "owner" : "DEAPP",
       "name" : "FK_PROTEIN_ANNOTATION_ID"
@@ -1116,17 +1134,6 @@
     "child" : {
       "type" : "REF_CONSTRAINT",
       "owner" : "DEAPP",
-      "name" : "FK_SNP_GENE_MAP_SNP_ID"
-    },
-    "parents" : [ {
-      "type" : "TABLE",
-      "owner" : "DEAPP",
-      "name" : "DE_SNP_GENE_MAP"
-    } ]
-  }, {
-    "child" : {
-      "type" : "REF_CONSTRAINT",
-      "owner" : "DEAPP",
       "name" : "FK_SNP_LOC_DATASET_ID"
     },
     "parents" : [ {
@@ -1144,6 +1151,28 @@
       "type" : "TABLE",
       "owner" : "DEAPP",
       "name" : "DE_SNP_PROBE"
+    } ]
+  }, {
+    "child" : {
+      "type" : "INDEX",
+      "owner" : "DEAPP",
+      "name" : "GEN_VARIANT_SUBJ_DET_CHR_POS"
+    },
+    "parents" : [ {
+      "type" : "TABLE",
+      "owner" : "DEAPP",
+      "name" : "DE_VARIANT_SUBJECT_DETAIL"
+    } ]
+  }, {
+    "child" : {
+      "type" : "INDEX",
+      "owner" : "DEAPP",
+      "name" : "GEN_VARIANT_SUBJ_SUMM_CHR_POS"
+    },
+    "parents" : [ {
+      "type" : "TABLE",
+      "owner" : "DEAPP",
+      "name" : "DE_VARIANT_SUBJECT_SUMMARY"
     } ]
   }, {
     "child" : {
@@ -1528,20 +1557,9 @@
     "parents" : [ ]
   }, {
     "child" : {
-      "type" : "INDEX",
-      "owner" : "DEAPP",
-      "name" : "SNP_NAME_IDX1"
-    },
-    "parents" : [ {
-      "type" : "TABLE",
-      "owner" : "DEAPP",
-      "name" : "DE_SNP_GENE_MAP"
-    } ]
-  }, {
-    "child" : {
       "type" : "REF_CONSTRAINT",
       "owner" : "DEAPP",
-      "name" : "SYS_C0029766"
+      "name" : "SYS_C0052326"
     },
     "parents" : [ {
       "type" : "TABLE",
@@ -2302,6 +2320,27 @@
     "file" : "deapp/de_rc_snp_info.sql"
   }, {
     "item" : {
+      "type" : "INDEX",
+      "owner" : "DEAPP",
+      "name" : "DE_RC_SNP_INFO_CHROM"
+    },
+    "file" : "deapp/de_rc_snp_info.sql"
+  }, {
+    "item" : {
+      "type" : "INDEX",
+      "owner" : "DEAPP",
+      "name" : "DE_RC_SNP_INFO_HG_RS"
+    },
+    "file" : "deapp/de_rc_snp_info.sql"
+  }, {
+    "item" : {
+      "type" : "INDEX",
+      "owner" : "DEAPP",
+      "name" : "DE_RC_SNP_INFO_POS"
+    },
+    "file" : "deapp/de_rc_snp_info.sql"
+  }, {
+    "item" : {
       "type" : "SEQUENCE",
       "owner" : "DEAPP",
       "name" : "DE_RC_SNP_INFO_SEQ"
@@ -2785,13 +2824,6 @@
     "file" : "deapp/procedures/dump_table_to_csv.sql"
   }, {
     "item" : {
-      "type" : "INDEX",
-      "owner" : "DEAPP",
-      "name" : "ENTREZ_IDX1"
-    },
-    "file" : "deapp/de_snp_gene_map.sql"
-  }, {
-    "item" : {
       "type" : "REF_CONSTRAINT",
       "owner" : "DEAPP",
       "name" : "FK_PROTEIN_ANNOTATION_ID"
@@ -2822,13 +2854,6 @@
     "item" : {
       "type" : "REF_CONSTRAINT",
       "owner" : "DEAPP",
-      "name" : "FK_SNP_GENE_MAP_SNP_ID"
-    },
-    "file" : "deapp/de_snp_gene_map.sql"
-  }, {
-    "item" : {
-      "type" : "REF_CONSTRAINT",
-      "owner" : "DEAPP",
       "name" : "FK_SNP_LOC_DATASET_ID"
     },
     "file" : "deapp/de_snp_data_dataset_loc.sql"
@@ -2839,6 +2864,20 @@
       "name" : "FK_SNP_PROBE_SNP_ID"
     },
     "file" : "deapp/de_snp_probe.sql"
+  }, {
+    "item" : {
+      "type" : "INDEX",
+      "owner" : "DEAPP",
+      "name" : "GEN_VARIANT_SUBJ_DET_CHR_POS"
+    },
+    "file" : "deapp/de_variant_subject_detail.sql"
+  }, {
+    "item" : {
+      "type" : "INDEX",
+      "owner" : "DEAPP",
+      "name" : "GEN_VARIANT_SUBJ_SUMM_CHR_POS"
+    },
+    "file" : "deapp/de_variant_subject_summary.sql"
   }, {
     "item" : {
       "type" : "TABLE",
@@ -3086,16 +3125,9 @@
     "file" : "deapp/_misc.sql"
   }, {
     "item" : {
-      "type" : "INDEX",
-      "owner" : "DEAPP",
-      "name" : "SNP_NAME_IDX1"
-    },
-    "file" : "deapp/de_snp_gene_map.sql"
-  }, {
-    "item" : {
       "type" : "REF_CONSTRAINT",
       "owner" : "DEAPP",
-      "name" : "SYS_C0029766"
+      "name" : "SYS_C0052326"
     },
     "file" : "deapp/de_gene_info.sql"
   }, {
