@@ -2695,13 +2695,6 @@
     "child" : {
       "type" : "TABLE",
       "owner" : "BIOMART",
-      "name" : "TMP_ANALYSIS_GWAS_TOP500"
-    },
-    "parents" : [ ]
-  }, {
-    "child" : {
-      "type" : "TABLE",
-      "owner" : "BIOMART",
       "name" : "TMP_BIO_MARKER"
     },
     "parents" : [ ]
@@ -5579,13 +5572,6 @@
       "name" : "TMP_ANALYSIS_EQTL_TOP500"
     },
     "file" : "biomart/tmp_analysis_eqtl_top500.sql"
-  }, {
-    "item" : {
-      "type" : "TABLE",
-      "owner" : "BIOMART",
-      "name" : "TMP_ANALYSIS_GWAS_TOP500"
-    },
-    "file" : "biomart/tmp_analysis_gwas_top500.sql"
   }, {
     "item" : {
       "type" : "TABLE",

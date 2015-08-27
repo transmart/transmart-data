@@ -572,17 +572,6 @@
     "child" : {
       "type" : "SYNONYM",
       "owner" : "TM_CZ",
-      "name" : "BIO_ASY_ANALYSIS_EQTL_TOP50"
-    },
-    "parents" : [ {
-      "type" : "TABLE",
-      "owner" : "BIOMART",
-      "name" : "BIO_ASY_ANALYSIS_EQTL_TOP50"
-    } ]
-  }, {
-    "child" : {
-      "type" : "SYNONYM",
-      "owner" : "TM_CZ",
       "name" : "BIO_ASY_ANALYSIS_GWAS_TOP50"
     },
     "parents" : [ {
@@ -4847,14 +4836,70 @@
       "owner" : "TM_CZ",
       "name" : "I2B2_LOAD_EQTL_TOP50"
     },
-    "parents" : [ ]
+    "parents" : [ {
+      "type" : "TABLE",
+      "owner" : "BIOMART",
+      "name" : "BIO_ASSAY_ANALYSIS"
+    }, {
+      "type" : "TABLE",
+      "owner" : "BIOMART",
+      "name" : "BIO_ASSAY_ANALYSIS_EQTL"
+    }, {
+      "type" : "TABLE",
+      "owner" : "BIOMART",
+      "name" : "BIO_ASY_ANALYSIS_EQTL_TOP50"
+    }, {
+      "type" : "TABLE",
+      "owner" : "BIOMART",
+      "name" : "TMP_ANALYSIS_EQTL_TOP500"
+    }, {
+      "type" : "TABLE",
+      "owner" : "DEAPP",
+      "name" : "DE_RC_SNP_INFO"
+    }, {
+      "type" : "TABLE",
+      "owner" : "DEAPP",
+      "name" : "DE_SNP_GENE_MAP"
+    }, {
+      "type" : "TABLE",
+      "owner" : "TM_CZ",
+      "name" : "TMP_ANALYSIS_COUNT_EQTL"
+    }, {
+      "type" : "SYNONYM",
+      "owner" : "TM_CZ",
+      "name" : "TMP_ANALYSIS_EQTL_TOP500"
+    } ]
   }, {
     "child" : {
       "type" : "PROCEDURE",
       "owner" : "TM_CZ",
       "name" : "I2B2_LOAD_GWAS_TOP50"
     },
-    "parents" : [ ]
+    "parents" : [ {
+      "type" : "TABLE",
+      "owner" : "BIOMART",
+      "name" : "BIO_ASSAY_ANALYSIS"
+    }, {
+      "type" : "TABLE",
+      "owner" : "BIOMART",
+      "name" : "BIO_ASSAY_ANALYSIS_GWAS"
+    }, {
+      "type" : "TABLE",
+      "owner" : "BIOMART",
+      "name" : "BIO_ASY_ANALYSIS_GWAS_TOP50"
+    }, {
+      "type" : "TABLE",
+      "owner" : "DEAPP",
+      "name" : "DE_RC_SNP_INFO"
+    }, {
+      "type" : "TABLE",
+      "owner" : "DEAPP",
+      "name" : "DE_SNP_GENE_MAP"
+    }, {
+      "type" : "TABLE",
+      "owner" : "TM_CZ",
+      "name" : "TMP_ANALYSIS_GWAS_TOP500"
+    } ]
   }, {
     "child" : {
       "type" : "PROCEDURE",
@@ -12129,6 +12174,13 @@
     "parents" : [ ]
   }, {
     "child" : {
+      "type" : "TABLE",
+      "owner" : "TM_CZ",
+      "name" : "TMP_ANALYSIS_COUNT_EQTL"
+    },
+    "parents" : [ ]
+  }, {
+    "child" : {
       "type" : "SYNONYM",
       "owner" : "TM_CZ",
       "name" : "TMP_ANALYSIS_EQTL_TOP500"
@@ -12140,15 +12192,11 @@
     } ]
   }, {
     "child" : {
-      "type" : "SYNONYM",
+      "type" : "TABLE",
       "owner" : "TM_CZ",
       "name" : "TMP_ANALYSIS_GWAS_TOP500"
     },
-    "parents" : [ {
-      "type" : "TABLE",
-      "owner" : "BIOMART",
-      "name" : "TMP_ANALYSIS_GWAS_TOP500"
-    } ]
+    "parents" : [ ]
   }, {
     "child" : {
       "type" : "SYNONYM",
@@ -15047,6 +15095,20 @@
       "name" : "TJEA_JUNK"
     },
     "file" : "tm_cz/tjea_junk.sql"
+  }, {
+    "item" : {
+      "type" : "TABLE",
+      "owner" : "TM_CZ",
+      "name" : "TMP_ANALYSIS_COUNT_EQTL"
+    },
+    "file" : "tm_cz/tmp_analysis_count_eqtl.sql"
+  }, {
+    "item" : {
+      "type" : "TABLE",
+      "owner" : "TM_CZ",
+      "name" : "TMP_ANALYSIS_GWAS_TOP500"
+    },
+    "file" : "tm_cz/tmp_analysis_gwas_top500.sql"
   }, {
     "item" : {
       "type" : "TABLE",

@@ -4,25 +4,7 @@
   CREATE OR REPLACE PROCEDURE "TM_CZ"."I2B2_LOAD_GWAS_TOP50" AS
 BEGIN
 
---select * from bio_assay_analysis_gwas
---where bio_assay_analysis_id = 419842521
---order by p_value asc, rs_id asc;
-
---select * from tmp_analysis_gwas_top500
---where bio_assay_analysis_id = 419842521
--- order by p_value asc;
-
-BEGIN
-execute immediate('drop table BIOMART.tmp_analysis_gwas_top500');
-EXCEPTION
-   WHEN OTHERS THEN
-      IF SQLCODE != -942 THEN
-         RAISE;
-      END IF;
-END;
-
-execute immediate('create table BIOMART.tmp_analysis_gwas_top500
-as
+INSERT INTO TM_CZ.tmp_analysis_gwas_top500 -- temporary table
 select a.*
 from (
 select
@@ -38,40 +20,27 @@ row_number () over (partition by bio_assay_analysis_id order by p_value asc, rs_
 from BIOMART.bio_assay_analysis_gwas
 ) a
 where
-a.rnum <=500');
+a.rnum <=500;
 
+execute immediate('TRUNCATE TABLE BIOMART.bio_asy_analysis_gwas_top50');
 
-execute immediate('create index t_a_g_t500_idx on BIOMART.TMP_ANALYSIS_GWAS_TOP500(RS_ID) tablespace "INDX"');
-execute immediate('create index t_a_ga_t500_idx on BIOMART.TMP_ANALYSIS_GWAS_TOP500(bio_assay_analysis_id) tablespace "INDX"');
-
-BEGIN
-execute immediate('drop table BIOMART.bio_asy_analysis_gwas_top50');
-EXCEPTION
-   WHEN OTHERS THEN
-      IF SQLCODE != -942 THEN
-         RAISE;
-      END IF;
-END;
-
-execute immediate('create table BIOMART.BIO_ASY_ANALYSIS_GWAS_TOP50
-as
+INSERT INTO BIOMART.BIO_ASY_ANALYSIS_GWAS_TOP50
 SELECT baa.bio_assay_analysis_id,
 baa.analysis_name AS analysis, info.chrom AS chrom, info.pos AS pos,
 gmap.gene_name AS rsgene, DATA.rs_id AS rsid,
 DATA.p_value AS pvalue, DATA.log_p_value AS logpvalue,
 DATA.ext_data AS extdata , DATA.rnum,
 info.exon_intron as intronexon, info.recombination_rate as recombinationrate, info.regulome_score as regulome
-FROM biomart.tmp_analysis_gwas_top500 DATA
+FROM tmp_analysis_gwas_top500 DATA
 JOIN biomart.bio_assay_analysis baa
 ON baa.bio_assay_analysis_id = DATA.bio_assay_analysis_id
-JOIN deapp.de_rc_snp_info info ON DATA.rs_id = info.rs_id and (hg_version='''||19||''')
-LEFT JOIN deapp.de_snp_gene_map gmap ON  gmap.snp_name =info.rs_id') ;
+JOIN deapp.de_rc_snp_info info ON DATA.rs_id = info.rs_id and (hg_version='19')
+LEFT JOIN deapp.de_snp_gene_map gmap ON  gmap.snp_name =info.rs_id;
 
---select count(*) from BIO_ASY_ANALYSIS_GWAS_TOP50;
+execute immediate('ALTER index BIOMART.B_ASY_GWAS_T50_IDX1 REBUILD parallel tablespace "INDX" UNRECOVERABLE');
 
-execute immediate('create index BIOMART.B_ASY_GWAS_T50_IDX1 on BIOMART.BIO_ASY_ANALYSIS_GWAS_TOP50(bio_assay_analysis_id) parallel tablespace "INDX"');
-
-execute immediate('create index BIOMART.B_ASY_GWAS_T50_IDX2 on BIOMART.BIO_ASY_ANALYSIS_GWAS_TOP50(ANALYSIS) parallel tablespace "INDX"');
+execute immediate('ALTER index BIOMART.B_ASY_GWAS_T50_IDX2 REBUILD parallel tablespace "INDX" UNRECOVERABLE');
 
 END I2B2_LOAD_GWAS_TOP50;
 /
+
