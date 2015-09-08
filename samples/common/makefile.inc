@@ -51,25 +51,25 @@ kettle-home/kettle.properties: gen_kettle_properties.php ../../vars
 ../studies/%:
 	$(MAKE) -C ../studies $*
 
-load_clinical_%: ../studies/%/clinical.params ../studies/%/clinical
+load_clinical_%: ../studies/%/clinical.params ../studies/%/clinical $(KETTLE_JDBC_DRIVER)
 	STUDY_ID=$* DATA_LOCATION="$(realpath ../studies/$*/clinical)" \
 			KETTLE_HOME="$(realpath kettle-home)" \
 			./load_clinical.sh $<
 
-load_annotation_%: ../studies/%/annotation.params ../studies/%/annotation
+load_annotation_%: ../studies/%/annotation.params ../studies/%/annotation $(KETTLE_JDBC_DRIVER)
 	DATA_LOCATION="$(realpath ../studies/$*/annotation)" \
 		PSQL_COMMAND="$(PSQL_COMMAND)" \
 		./load_annotation.sh $<
 
-load_ref_annotation_%: ../studies/%/ref_annotation.params
+load_ref_annotation_%: ../studies/%/ref_annotation.params $(KETTLE_JDBC_DRIVER)
 	$(MAKE) load_annotation_`./load_ref_annotation.sh $<`
 
-load_expression_%: ../studies/%/expression.params ../studies/%/expression
+load_expression_%: ../studies/%/expression.params ../studies/%/expression $(KETTLE_JDBC_DRIVER)
 	STUDY_ID=$* DATA_LOCATION="$(realpath ../studies/$*/expression)" \
 			KETTLE_HOME="$(realpath kettle-home)" \
 			./load_expression.sh $<
 
-load_acgh_%: ../studies/%/acgh.params ../studies/%/acgh
+load_acgh_%: ../studies/%/acgh.params ../studies/%/acgh $(KETTLE_JDBC_DRIVER)
 	STUDY_ID=$* DATA_LOCATION="$(realpath ../studies/$*/acgh)" \
 			PSQL_COMMAND="$(PSQL_COMMAND)" \
 			KETTLE_HOME="$(realpath kettle-home)" \
@@ -83,12 +83,12 @@ PROTEOMICS_ANNOT_PREFIX ?= proteomics
 PROTEOMICS_ANNOT_FILE   ?= $(PROTEOMICS_ANNOT_PREFIX)_annotation.txt
 
 load_proteomics_annotation_%: GPL_ID ?= $*_proteomics
-load_proteomics_annotation_%: ../studies/%/proteomics_annotation/$(PROTEOMICS_ANNOT_FILE)
+load_proteomics_annotation_%: ../studies/%/proteomics_annotation/$(PROTEOMICS_ANNOT_FILE) $(KETTLE_JDBC_DRIVER)
 	DATA_LOCATION="$(realpath ../studies/$*/proteomics_annotation)" \
 	KETTLE_HOME="$(realpath kettle-home)" \
 	./load_proteomics_annotation.sh $< \
 
-load_proteomics_%: ../studies/%/proteomics.params ../studies/%/proteomics/$(PROTEOMICS_SSM_FILE) ../studies/%/proteomics/$(PROTEOMICS_CM_FILE)
+load_proteomics_%: ../studies/%/proteomics.params ../studies/%/proteomics/$(PROTEOMICS_SSM_FILE) ../studies/%/proteomics/$(PROTEOMICS_CM_FILE) $(KETTLE_JDBC_DRIVER)
 	MAP_FILENAME=$(PROTEOMICS_SSM_FILE) \
 	COLUMN_MAPPING_FILE=$(PROTEOMICS_CM_FILE) \
 	DATA_FILE_PREFIX=$(PROTEOMICS_DATA_PREFIX) \
@@ -119,12 +119,12 @@ MIRNA_ANNOT_PREFIX ?= mirna
 MIRNA_ANNOT_FILE   ?= $(MIRNA_ANNOT_PREFIX)_annotation.txt
 
 load_mirna_annotation_%: GPL_ID ?= $*_mirna
-load_mirna_annotation_%: ../studies/%/mirna.params ../studies/%/mirna ../studies/%/mirna/$(MIRNA_ANNOT_FILE)
+load_mirna_annotation_%: ../studies/%/mirna.params ../studies/%/mirna ../studies/%/mirna/$(MIRNA_ANNOT_FILE) $(KETTLE_JDBC_DRIVER)
 	DATA_LOCATION="$(realpath ../studies/$*/mirna)" \
 	KETTLE_HOME="$(realpath kettle-home)" \
 	./load_mirna_annotation.sh $< \
 
-load_mirna_%: ../studies/%/mirna.params ../studies/%/mirna load_mirna_annotation_% ../studies/%/mirna/$(MIRNA_SSM_FILE)
+load_mirna_%: ../studies/%/mirna.params ../studies/%/mirna load_mirna_annotation_% ../studies/%/mirna/$(MIRNA_SSM_FILE) $(KETTLE_JDBC_DRIVER)
 	MAP_FILENAME=$(MIRNA_SSM_FILE) \
 	DATA_FILE_PREFIX=$(MIRNA_DATA_PREFIX) \
 	DATA_FILE=$(MIRNA_DATA_FILE) \
@@ -149,7 +149,7 @@ parse_vcf_%: ../studies/%/vcf.params ../studies/%/vcf
 	STUDY_ID=$* DATA_LOCATION="$(realpath ../studies/$*/vcf)" \
 			../common/_scripts/vcf/parse_vcf.sh $<
 
-load_vcf_%: ../studies/%/vcf.params parse_vcf_%
+load_vcf_%: ../studies/%/vcf.params parse_vcf_% $(KETTLE_JDBC_DRIVER)
 	STUDY_ID=$* PSQL='$(PSQL_COMMAND) -d $(PGDATABASE)' \
 			DATA_LOCATION="$(realpath ../studies/$*/vcf)" \
 			./load_vcf.sh $<

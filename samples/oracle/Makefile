@@ -9,10 +9,14 @@ JDBC_DRIVER   := $(JDBC_DRIVER_ORA_PATH)
 LIB_CLASSPATH := $(CP_ORA)
 KETTLE_JOBS   := $(KETTLE_JOBS_ORA)
 BATCH_PROPS   := batchdb-oracle.properties
+KETTLE_JDBC_DRIVER := ../../env/data-integration/libext/JDBC/$(JDBC_DRIVER_ORA)
 
 include ../common/makefile.inc
 
 $(LOAD_VCF_PARAMS_TARGETS): $(JDBC_DRIVER)
+
+$(KETTLE_JDBC_DRIVER):
+	curl -f $(JDBC_DL_ORA)/$(JDBC_DRIVER_ORA) > $@
 
 .PHONY:  parse load_vcf load_vcf_data load_vcf_mapping load_parsed_vcf_data
 		load_parsed_vcf_mapping
