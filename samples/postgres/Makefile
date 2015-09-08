@@ -9,11 +9,14 @@ JDBC_DRIVER   := $(JDBC_DRIVER_PSQL_PATH)
 LIB_CLASSPATH := $(CP_PSQL)
 KETTLE_JOBS   := $(KETTLE_JOBS_PSQL)
 BATCH_PROPS   := batchdb-psql.properties
+KETTLE_JDBC_DRIVER := __notneeded_for_postgres__
 
 include ../common/makefile.inc
 
 .PHONY:  parse load_vcf load_vcf_data load_vcf_mapping load_parsed_vcf_data
-		load_parsed_vcf_mapping
+		load_parsed_vcf_mapping $(KETTLE_JDBC_DRIVER)
+
+$(KETTLE_JDBC_DRIVER): ;
 
 parse_vcf: ../common/parse_vcf
 load_vcf: ../common/parse_vcf load_parsed_vcf_data load_parsed_vcf_mapping
