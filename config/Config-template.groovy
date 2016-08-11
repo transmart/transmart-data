@@ -376,6 +376,7 @@ grails { plugin { springsecurity {
             '/search/loadAJAX**'          : ['IS_AUTHENTICATED_ANONYMOUSLY'],
             '/analysis/getGenePatternFile': ['IS_AUTHENTICATED_ANONYMOUSLY'],
             '/analysis/getTestFile'       : ['IS_AUTHENTICATED_ANONYMOUSLY'],
+            '/api-version'                : ['IS_AUTHENTICATED_ANONYMOUSLY'],
             '/requestmap/**'              : ['ROLE_ADMIN'],
             '/role/**'                    : ['ROLE_ADMIN'],
             '/authUser/**'                : ['ROLE_ADMIN'],
