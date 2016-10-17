@@ -5444,6 +5444,20 @@
     "file" : "biomart_user/gene_ontology_data.sql"
   }, {
     "item" : {
+      "type" : "TABLE",
+      "owner" : "BIOMART_USER",
+      "name" : "SESSION_MULTISETS_OF_INTEGERS"
+    },
+    "file" : "biomart_user/_misc.sql"
+  }, {
+    "item" : {
+      "type" : "TABLE",
+      "owner" : "BIOMART_USER",
+      "name" : "SESSION_MULTISETS_OF_STRINGS"
+    },
+    "file" : "biomart_user/_misc.sql"
+  }, {
+    "item" : {
       "type" : "INDEX",
       "owner" : "BIOMART_USER",
       "name" : "IDX_GOD_ORGANISM"
