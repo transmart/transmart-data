@@ -168,15 +168,3 @@ if [ -z "$KETTLE_JOBS" ] ; then
     fi
 fi
 
-# Set R_JOBS_PSQL parameter
-if [ -z "$R_JOBS_PSQL" ] ; then
-    if [ $DBTYPE == "postgres" ] ; then
-        if [ -z "$KETTLE_JOBS_PSQL" ] ; then
-            echo "Warning $(basename $0): Neither R_JOBS_PSQL nor KETTLE_JOBS_PSQL parameter has been set"
-        else
-            R_JOBS_PSQL="$(cd "${KETTLE_JOBS_PSQL}/../../R" && pwd)"
-            echo "Info $(basename $0): R_JOBS_PSQL parameter set to ${R_JOBS_PSQL}"
-	fi
-    fi
-fi
-
